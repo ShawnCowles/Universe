@@ -115,6 +115,40 @@ namespace VindemiatrixCollective.Universe.Tests
             Common.ArrayAreEqual(elementsExpected, elements, 1e-3, "Elements");
         }
 
+        [Test]
+        public void LunarPeriod()
+        {
+            //Star sun = Common.Sun;
+            var earth = Common.Earth;
+            //sun.AddPlanet(earth);
+
+            var moon = new Planet
+            {
+                Name = "Luna",
+                PhysicalData = PhysicalData.Create(
+                    Mass.FromKilograms(7.346e22),
+                    Length.FromKilometers(1737.4),
+                    Acceleration.FromMetersPerSecondSquared(1.622),
+                    Density.FromGramsPerCubicCentimeter(3.34)),
+                OrbitalData = OrbitalData.From(
+                    Length.FromKilometers(384399),
+                    Ratio.FromDecimalFractions(0.09548768),
+                    Angle.FromDegrees(5.145),
+                    Angle.FromDegrees(12.75405),
+                    Angle.FromDegrees(194.3756907),
+                    Angle.FromDegrees(208.4219455),
+                    Duration.FromDays(27.321661),
+                    Duration.FromDays(27.321661),
+                    Angle.FromDegrees(1.5424)),
+            };
+            earth.AddSatellite(moon);
+
+
+            moon.OrbitState.Propagate(Duration.FromDays(1));
+
+            Assert.That(moon.OrbitState.Period.Days, Is.EqualTo(27.321661));
+        }
+
         //[Test]
         //public void PropagationKnownValues()
         //{
