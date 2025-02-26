@@ -1,7 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using UnitsNet;
-using Unity.Mathematics;
 using VindemiatrixCollective.Universe.Model;
 
 namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
@@ -350,7 +348,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
         {
             DateTime[] dates = new DateTime[numValues];
 
-            int step = (int)math.floor((end - start).TotalSeconds / numValues);
+            int step = (int)Math.Floor((end - start).TotalSeconds / numValues);
 
             for (int i = 1; i < numValues-1; i++)
             {

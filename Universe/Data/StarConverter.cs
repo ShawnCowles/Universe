@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnitsNet;
-using UnityEngine;
 using VindemiatrixCollective.Universe.Model;
 
 namespace VindemiatrixCollective.Universe.Data
@@ -25,7 +22,7 @@ namespace VindemiatrixCollective.Universe.Data
 
             if (string.IsNullOrEmpty(star.Name))
             {
-                Debug.LogWarning($"{nameof(Star)} name is empty.");
+                //Debug.LogWarning($"{nameof(Star)} name is empty.");
                 star.Name = "Unknown";
             }
 

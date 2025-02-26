@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Godot;
 using UnitsNet;
-using UnityEngine;
 using VindemiatrixCollective.Universe.CelestialMechanics.Orbits;
 using Angle = UnitsNet.Angle;
 
@@ -102,7 +101,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
 
         public void PrintOut()
         {
-            Debug.Log($"Ellipse C({Center.x:F2},{Center.y:F2},{Center.z:F2} a:{A:F2} b:{B:F2}");
+            //Debug.Log($"Ellipse C({Center.x:F2},{Center.y:F2},{Center.z:F2} a:{A:F2} b:{B:F2}");
         }
     }
 }

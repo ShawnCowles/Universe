@@ -1,9 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using UnitsNet;
-using UnityEngine;
 using VindemiatrixCollective.Universe.CelestialMechanics.Orbits;
 
 namespace VindemiatrixCollective.Universe.Model

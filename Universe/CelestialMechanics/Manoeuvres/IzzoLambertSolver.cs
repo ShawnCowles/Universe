@@ -1,13 +1,10 @@
-﻿using System;
-using UnitsNet;
-using Unity.Mathematics;
-using UnityEngine.Assertions;
+﻿using UnitsNet;
 
 namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
 {
     public class IzzoLambertSolver : ILambertSolver
     {
-        private const double pi = math.PI_DBL;
+        private const double pi = Math.PI;
         private double rtol;
         private int M;
 
@@ -53,9 +50,9 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
             Vector3d r2 = finalPosition;
             double tof = timeOfFlight.Seconds;
 
-            Assert.IsTrue(tof > 0, nameof(timeOfFlight));
-            Assert.IsTrue(k > 0, nameof(gravitationalParameter));
-            Assert.IsTrue(rtol > 0, nameof(Tolerance));
+            //Assert.IsTrue(tof > 0, nameof(timeOfFlight));
+            //Assert.IsTrue(k > 0, nameof(gravitationalParameter));
+            //Assert.IsTrue(rtol > 0, nameof(Tolerance));
 
             if (Vector3d.Cross(r1, r2) == Vector3d.zero)
                 throw new ArgumentException("Lambert solution cannot be computed for collinear vectors");
@@ -74,7 +71,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
             Vector3d ih  = Vector3d.Cross(ir1, ir2).normalized;
 
             // Geometry of the problem
-            double ll = math.sqrt(1 - math.min(1.0, cN / s));
+            double ll = Math.Sqrt(1 - Math.Min(1.0, cN / s));
             
             // Compute the fundamental tangential directions
             Vector3d it1, it2;
@@ -94,14 +91,14 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
             (ll, it1, it2) = Prograde ? (ll, it1, it2) : (-ll, -it1, -it2);
 
             // Non-dimensional time of flight
-            double T = math.sqrt(2 * k / math.pow(s, 3)) * tof;
+            double T = Math.Sqrt(2 * k / Math.Pow(s, 3)) * tof;
 
             (double x, double y) = find_xy(ll, T, M);
             
             // Reconstruct
-            double gamma = math.sqrt(k * s / 2);
+            double gamma = Math.Sqrt(k * s / 2);
             double rho   = (r1N - r2N) / cN;
-            double sigma = math.sqrt(1 - math.pow(rho, 2));
+            double sigma = Math.Sqrt(1 - Math.Pow(rho, 2));
 
             (double V_r1, double V_r2, double V_t1, double V_t2) = reconstruct(x, y, r1N, r2N, ll, gamma, rho, sigma);
 
@@ -131,10 +128,10 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
         (double x, double y) find_xy(double ll, double T, int M)
         {
             // For abs(ll) == 1 the derivative is not continuous
-            Assert.IsTrue(math.abs(ll) < 1);
-            Assert.IsTrue(T>0); // Mistake in the original paper
-            int Mmax = (int)math.floor(T / pi);
-            double T00  = math.acos(ll) + ll * math.sqrt(1 - math.pow(ll,2)); // T_xM
+            //Assert.IsTrue(Math.abs(ll) < 1);
+            //Assert.IsTrue(T>0); // Mistake in the original paper
+            int Mmax = (int)Math.Floor(T / pi);
+            double T00  = Math.Acos(ll) + ll * Math.Sqrt(1 - Math.Pow(ll,2)); // T_xM
 
             // Refine maximum number of revolutions if necessary
             if (T < T00 + Mmax * pi && Mmax > 0)
@@ -174,10 +171,10 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
 
                 // Householder step (quartic)
                 double p = p0 - fVal * (
-                    (math.pow(fDer, 2) - fVal * fDer2 / 2)
-                    / (fDer * (math.pow(fDer, 2) - fVal * fDer2) + fDer3 * math.pow(fVal, 2) / 6));
+                    (Math.Pow(fDer, 2) - fVal * fDer2 / 2)
+                    / (fDer * (Math.Pow(fDer, 2) - fVal * fDer2) + fDer3 * Math.Pow(fVal, 2) / 6));
 
-                if (math.abs(p - p0) < rtol)
+                if (Math.Abs(p - p0) < rtol)
                     return p;
                 p0 = p;
             }
@@ -192,14 +189,14 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
             {
                 // Single revolution
                 // Equation 19
-                double T0 = math.acos(ll) + ll * math.sqrt(1 - math.pow(ll, 2)) + M * pi; 
+                double T0 = Math.Acos(ll) + ll * Math.Sqrt(1 - Math.Pow(ll, 2)) + M * pi; 
                 // Equation 21
-                double T1 = 2 * (1 - math.pow(ll, 3)) / 3;
+                double T1 = 2 * (1 - Math.Pow(ll, 3)) / 3;
 
                 if (T >= T0)
-                    x0 = math.pow(T0 / T, 2 / 3d) - 1;
+                    x0 = Math.Pow(T0 / T, 2 / 3d) - 1;
                 else if (T < T1)
-                    x0 = 5 / 2d * T1 / T * (T1 - T) / (1 - math.pow(ll, 5)) + 1;
+                    x0 = 5 / 2d * T1 / T * (T1 - T) / (1 - Math.Pow(ll, 5)) + 1;
                 else
                 {
                     // This is the real condition, which is not exactly equivalent
@@ -207,21 +204,21 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
                     // Corrected initial guess,
                     // piecewise equation right after expression (30) in the original paper is incorrect
                     // See https://github.com/hapsira/hapsira/issues/1362
-                    x0 = math.exp(math.log(2) * math.log(T / T0) / math.log(T1 / T0)) - 1;
+                    x0 = Math.Exp(Math.Log(2) * Math.Log(T / T0) / Math.Log(T1 / T0)) - 1;
                 }
                 return x0;
             }
             else
             {
                 // Multiple revolution
-                double x0l = (math.pow((M * pi + pi) / (8 * T), 2 / 3d) - 1)
-                              / (math.pow((M * pi + pi) / (8 * T), 2 / 3d) + 1);
-                double x0r = (math.pow((8 * T) / (M * pi), 2 / 3d) - 1)
-                              / (math.pow((8 * T) / (M * pi), 2 / 3d) + 1);
+                double x0l = (Math.Pow((M * pi + pi) / (8 * T), 2 / 3d) - 1)
+                              / (Math.Pow((M * pi + pi) / (8 * T), 2 / 3d) + 1);
+                double x0r = (Math.Pow((8 * T) / (M * pi), 2 / 3d) - 1)
+                              / (Math.Pow((8 * T) / (M * pi), 2 / 3d) + 1);
 
                 // Select one of the solutions according to desired type of path
 
-                x0 = LowPath ? math.max(x0l, x0r) : math.min(x0l, x0r);
+                x0 = LowPath ? Math.Max(x0l, x0r) : Math.Min(x0l, x0r);
             }
 
             return x0;
@@ -233,7 +230,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
         (double xTmin, double Tmin) compute_Tmin(double ll, int M)
         {
             double xTmin, Tmin;
-            if (math.abs(ll - 1) < rtol)
+            if (Math.Abs(ll - 1) < rtol)
             {
                 xTmin = 0;
                 Tmin = tofEquation(xTmin, 0, ll, M);
@@ -267,14 +264,14 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
                 double y     = compute_y(p0, ll);
                 double fDer  = tofEquation_p(p0, y, T0, ll);
                 double fDer2 = tofEquation_p2(p0, y, T0, fDer, ll);
-                if (math.abs(fDer2) < rtol)
+                if (Math.Abs(fDer2) < rtol)
                     throw new InvalidOperationException("Derivative was zero");
                 double fDer3 = tofEquation_p3(p0, y, T0, fDer, fDer2, ll);
 
                 // Halley step (cubic)
-                double p = p0 - 2 * fDer * fDer2 / (2 * math.pow(fDer2, 2) - fDer * fDer3);
+                double p = p0 - 2 * fDer * fDer2 / (2 * Math.Pow(fDer2, 2) - fDer * fDer3);
 
-                if (math.abs(p - p0) < rtol)
+                if (Math.Abs(p - p0) < rtol)
                     return p;
                 p0 = p;
             }
@@ -284,17 +281,17 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
 
         private double tofEquation_p(double x, double y, double T, double ll)
         {
-            return (3 * T * x - 2 + 2 * math.pow(ll, 3) * x / y) / (1 - math.pow(x,2));
+            return (3 * T * x - 2 + 2 * Math.Pow(ll, 3) * x / y) / (1 - Math.Pow(x,2));
         }
 
         private double tofEquation_p2(double x, double y, double T, double dT, double ll)
         {
-            return (3 * T + 5 * x * dT + 2 * (1 - math.pow(ll,2)) * math.pow(ll, 3) /math.pow(y, 3)) / (1 - math.pow(x,2));
+            return (3 * T + 5 * x * dT + 2 * (1 - Math.Pow(ll,2)) * Math.Pow(ll, 3) /Math.Pow(y, 3)) / (1 - Math.Pow(x,2));
         }
 
         double tofEquation_p3(double x, double y, double _, double dT, double ddT, double ll)
         {
-            return (7 * x * ddT + 8 * dT - 6 * (1 - math.pow(ll, 2)) * math.pow(ll, 5) * x / math.pow(y, 5)) / (1 - math.pow(x, 2));
+            return (7 * x * ddT + 8 * dT - 6 * (1 - Math.Pow(ll, 2)) * Math.Pow(ll, 5) * x / Math.Pow(y, 5)) / (1 - Math.Pow(x, 2));
         }
 
         double tofEquation(double x, double T0, double ll, int M)
@@ -304,7 +301,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
 
         double compute_y(double x, double ll)
         {
-            return math.sqrt(1 - math.pow(ll,2) * (1 - x *x));
+            return Math.Sqrt(1 - Math.Pow(ll,2) * (1 - x *x));
         }
 
         /// <summary>
@@ -314,12 +311,12 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
         double tofEquation_y(double x, double y, double T0, double ll, int M)
         {
             double T;
-            if (math.abs(ll) < rtol && x > math.sqrt(0.6) && x < math.sqrt(1.4))
+            if (Math.Abs(ll) < rtol && x > Math.Sqrt(0.6) && x < Math.Sqrt(1.4))
             {
                 double eta = y - ll * x;
                 double s1  = (1 - ll - x * eta) * 0.5;
                 double Q   = 4 / 3d * hypergeometric2f1b(s1);
-                T   = (math.pow(eta, 3) * Q + 4 * ll * eta) * 0.5;
+                T   = (Math.Pow(eta, 3) * Q + 4 * ll * eta) * 0.5;
             }
             else
             {
@@ -328,8 +325,8 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
                 // np.divide(psi + M * pi, np.sqrt(np.abs(1 - x**2))) - x + ll * y,
                 // (1 - x**2)
 
-                double t0 = (psi + M * pi) / math.sqrt(math.abs(1 - math.pow(x,2)));
-                T  = (t0 - x + ll * y) / (1 - math.pow(x,2));
+                double t0 = (psi + M * pi) / Math.Sqrt(Math.Abs(1 - Math.Pow(x,2)));
+                T  = (t0 - x + ll * y) / (1 - Math.Pow(x,2));
             }
 
             return T - T0;
@@ -346,13 +343,13 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
             {
                 // Elliptic motion
                 // Use arc cosine to avoid numerical errors
-                return math.acos(x * y + ll * (1 - math.pow(x,2)));
+                return Math.Acos(x * y + ll * (1 - Math.Pow(x,2)));
             }
             else if (x > 1)
             {
                 // Hyperbolic motion
                 // The hyperbolic sine is bijective
-                return math.sinh(y - x * ll) * math.sqrt(math.pow(x,2) - 1);
+                return Math.Sinh(y - x * ll) * Math.Sqrt(Math.Pow(x,2) - 1);
             }
             else // Parabolic motion
                 return 0;
@@ -372,7 +369,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres
                     term = term * (3 + i) * (1 + i) / (5 / 2d + i) * x / (i + 1);
                     double resOld = res;
                     res += term;
-                    if (math.abs(resOld - res) < rtol)
+                    if (Math.Abs(resOld - res) < rtol)
                         return res;
                     i += 1;
                 }

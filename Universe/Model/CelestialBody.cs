@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Unity.Properties;
-using VindemiatrixCollective.Universe.CelestialMechanics;
+﻿using VindemiatrixCollective.Universe.CelestialMechanics;
 using VindemiatrixCollective.Universe.CelestialMechanics.Orbits;
 
 namespace VindemiatrixCollective.Universe.Model
@@ -18,7 +16,7 @@ namespace VindemiatrixCollective.Universe.Model
         public GravitationalParameter Mu => GravitationalParameter.FromMass(PhysicalData.Mass);
         public int Index { get; protected set; }
 
-        [CreateProperty]
+        //[CreateProperty]
         public OrbitalData OrbitalData
         {
             get => orbitalData;
@@ -32,18 +30,18 @@ namespace VindemiatrixCollective.Universe.Model
             }
         }
 
-        [CreateProperty]
+        //[CreateProperty]
         public OrbitState OrbitState { get; private set; }
 
-        [CreateProperty]
+        //[CreateProperty]
         public PhysicalData PhysicalData { get; set; }
 
         public Star ParentStar { get; internal set; }
 
-        [CreateProperty]
+        //[CreateProperty]
         public StarSystem StarSystem { get; internal set; }
 
-        [CreateProperty]
+        //[CreateProperty]
         public virtual string FullName => Name;
 
         public string Name { get; set; }

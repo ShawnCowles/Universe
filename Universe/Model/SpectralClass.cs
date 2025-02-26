@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using UnityEngine;
+﻿using System.Text.RegularExpressions;
 
 namespace VindemiatrixCollective.Universe.Model
 {
@@ -72,7 +70,7 @@ namespace VindemiatrixCollective.Universe.Model
 
             if (matches.Count == 0)
             {
-                Debug.LogWarning($"Invalid Spectral Class: {spectralClass}");
+                //Debug.LogWarning($"Invalid Spectral Class: {spectralClass}");
                 return;
             }
 
@@ -82,7 +80,7 @@ namespace VindemiatrixCollective.Universe.Model
             {
                 if (string.IsNullOrEmpty(candidate.Groups[3].Value))
                 {
-                    Debug.LogWarning($"Invalid Spectral Class: {spectralClass}");
+                    //Debug.LogWarning($"Invalid Spectral Class: {spectralClass}");
                 }
                 else
                 {
@@ -93,7 +91,7 @@ namespace VindemiatrixCollective.Universe.Model
 
             if (m == null)
             {
-                Debug.LogWarning($"Invalid Spectral Class: {spectralClass}");
+                //Debug.LogWarning($"Invalid Spectral Class: {spectralClass}");
                 return;
             }
 

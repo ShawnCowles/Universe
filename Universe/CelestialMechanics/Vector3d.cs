@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using Godot;
 
 namespace VindemiatrixCollective.Universe.CelestialMechanics
 {
@@ -90,9 +89,9 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
 
         public Vector3d(Vector3 v3)
         {
-            x = v3.x;
-            y = v3.y;
-            z = v3.z;
+            x = v3.X;
+            y = v3.Y;
+            z = v3.Z;
         }
 
         public Vector3d(double x, double y)
@@ -149,7 +148,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
 
         public static explicit operator Vector3d(Vector3 vector3)
         {
-            return new Vector3d(vector3.x, vector3.y, vector3.z);
+            return new Vector3d(vector3.X, vector3.Y, vector3.Z);
         }
 
         public static Vector3d Lerp(Vector3d from, Vector3d to, double t)
@@ -159,36 +158,36 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
                                 from.z + ((to.z - from.z) * t));
         }
 
-        public static Vector3d Slerp(Vector3d from, Vector3d to, double t)
-        {
-            Vector3 v3 = Vector3.Slerp((Vector3)from, (Vector3)to, (float)t);
-            return new Vector3d(v3);
-        }
+        //public static Vector3d Slerp(Vector3d from, Vector3d to, double t)
+        //{
+        //    Vector3 v3 = Vector3.Slerp((Vector3)from, (Vector3)to, (float)t);
+        //    return new Vector3d(v3);
+        //}
 
-        public static void OrthoNormalize(ref Vector3d normal, ref Vector3d tangent)
-        {
-            Vector3 v3normal  = new Vector3();
-            Vector3 v3tangent = new Vector3();
-            v3normal = (Vector3)normal;
-            v3tangent = (Vector3)tangent;
-            Vector3.OrthoNormalize(ref v3normal, ref v3tangent);
-            normal = new Vector3d(v3normal);
-            tangent = new Vector3d(v3tangent);
-        }
+        //public static void OrthoNormalize(ref Vector3d normal, ref Vector3d tangent)
+        //{
+        //    Vector3 v3normal  = new Vector3();
+        //    Vector3 v3tangent = new Vector3();
+        //    v3normal = (Vector3)normal;
+        //    v3tangent = (Vector3)tangent;
+        //    Vector3.OrthoNormalize(ref v3normal, ref v3tangent);
+        //    normal = new Vector3d(v3normal);
+        //    tangent = new Vector3d(v3tangent);
+        //}
 
-        public static void OrthoNormalize(ref Vector3d normal, ref Vector3d tangent, ref Vector3d binormal)
-        {
-            Vector3 v3normal   = new Vector3();
-            Vector3 v3tangent  = new Vector3();
-            Vector3 v3binormal = new Vector3();
-            v3normal = (Vector3)normal;
-            v3tangent = (Vector3)tangent;
-            v3binormal = (Vector3)binormal;
-            Vector3.OrthoNormalize(ref v3normal, ref v3tangent, ref v3binormal);
-            normal = new Vector3d(v3normal);
-            tangent = new Vector3d(v3tangent);
-            binormal = new Vector3d(v3binormal);
-        }
+        //public static void OrthoNormalize(ref Vector3d normal, ref Vector3d tangent, ref Vector3d binormal)
+        //{
+        //    Vector3 v3normal   = new Vector3();
+        //    Vector3 v3tangent  = new Vector3();
+        //    Vector3 v3binormal = new Vector3();
+        //    v3normal = (Vector3)normal;
+        //    v3tangent = (Vector3)tangent;
+        //    v3binormal = (Vector3)binormal;
+        //    Vector3.OrthoNormalize(ref v3normal, ref v3tangent, ref v3binormal);
+        //    normal = new Vector3d(v3normal);
+        //    tangent = new Vector3d(v3tangent);
+        //    binormal = new Vector3d(v3binormal);
+        //}
 
         public static Vector3d MoveTowards(Vector3d current, Vector3d target, double maxDistanceDelta)
         {
@@ -202,28 +201,28 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
             return current + ((vector3 / magnitude) * maxDistanceDelta);
         }
 
-        public static Vector3d RotateTowards(Vector3d current, Vector3d target, double maxRadiansDelta,
-                                             double maxMagnitudeDelta)
-        {
-            Vector3 v3 = Vector3.RotateTowards((Vector3)current, (Vector3)target, (float)maxRadiansDelta,
-                                               (float)maxMagnitudeDelta);
-            return new Vector3d(v3);
-        }
+        //public static Vector3d RotateTowards(Vector3d current, Vector3d target, double maxRadiansDelta,
+        //                                     double maxMagnitudeDelta)
+        //{
+        //    Vector3 v3 = Vector3.RotateTowards((Vector3)current, (Vector3)target, (float)maxRadiansDelta,
+        //                                       (float)maxMagnitudeDelta);
+        //    return new Vector3d(v3);
+        //}
 
-        public static Vector3d SmoothDamp(Vector3d current, Vector3d target, ref Vector3d currentVelocity,
-                                          double smoothTime, double maxSpeed)
-        {
-            double deltaTime = Time.deltaTime;
-            return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
-        }
+        //public static Vector3d SmoothDamp(Vector3d current, Vector3d target, ref Vector3d currentVelocity,
+        //                                  double smoothTime, double maxSpeed)
+        //{
+        //    double deltaTime = Time.deltaTime;
+        //    return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        //}
 
-        public static Vector3d SmoothDamp(Vector3d current, Vector3d target, ref Vector3d currentVelocity,
-                                          double smoothTime)
-        {
-            double deltaTime = Time.deltaTime;
-            double maxSpeed  = double.PositiveInfinity;
-            return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
-        }
+        //public static Vector3d SmoothDamp(Vector3d current, Vector3d target, ref Vector3d currentVelocity,
+        //                                  double smoothTime)
+        //{
+        //    double deltaTime = Time.deltaTime;
+        //    double maxSpeed  = double.PositiveInfinity;
+        //    return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        //}
 
         public static Vector3d SmoothDamp(Vector3d current, Vector3d target, ref Vector3d currentVelocity,
                                           double smoothTime, double maxSpeed, double deltaTime)
@@ -401,7 +400,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
         public Vector3 ToXZY()
         {
             Vector3 v = (Vector3)this;
-            return new Vector3(v.x, v.z, v.y);
+            return new Vector3(v.X, v.Z, v.Y);
         }
 
         public double[] ToArray()

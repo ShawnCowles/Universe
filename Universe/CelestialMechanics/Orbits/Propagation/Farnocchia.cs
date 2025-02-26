@@ -1,6 +1,4 @@
-﻿using System;
-using UnitsNet;
-using UnityEngine.Assertions;
+﻿using UnitsNet;
 using Angle = UnitsNet.Angle;
 using Length = UnitsNet.Length;
 
@@ -21,7 +19,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits.Propagation
         /// <param name="tof">Time of flight (s)</param>
         public static Angle PropagateOrbit(OrbitState state, Duration tof)
         {
-            Assert.IsNotNull(state.Attractor, $"{nameof(OrbitState)}.{nameof(OrbitState.Attractor)} cannot be null");
+            //Assert.IsNotNull(state.Attractor, $"{nameof(OrbitState)}.{nameof(OrbitState.Attractor)} cannot be null");
 
             double p = state.SemiLatusRectum.Meters;
             double q = p / (1 + state.Eccentricity.Value);

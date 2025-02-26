@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VindemiatrixCollective.Universe", "Universe\VindemiatrixCollective.Universe.csproj", "{3647A71E-C57F-4944-A7BD-81382B99E549}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VindemiatrixCollective.Universe.Test", "Universe.Tests\VindemiatrixCollective.Universe.Test.csproj", "{A74710D2-AE2F-4862-BC22-ACE9DE393574}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3647A71E-C57F-4944-A7BD-81382B99E549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3647A71E-C57F-4944-A7BD-81382B99E549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3647A71E-C57F-4944-A7BD-81382B99E549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3647A71E-C57F-4944-A7BD-81382B99E549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A74710D2-AE2F-4862-BC22-ACE9DE393574}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A74710D2-AE2F-4862-BC22-ACE9DE393574}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A74710D2-AE2F-4862-BC22-ACE9DE393574}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A74710D2-AE2F-4862-BC22-ACE9DE393574}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {520C1DB8-E885-42FE-AC44-F481ECE5CF13}
+	EndGlobalSection
+EndGlobal

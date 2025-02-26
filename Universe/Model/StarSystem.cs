@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Godot;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnitsNet;
-using Unity.Properties;
-using UnityEngine;
 
 namespace VindemiatrixCollective.Universe.Model
 {
@@ -18,10 +17,10 @@ namespace VindemiatrixCollective.Universe.Model
 
         public Star[] ToArray() => Stars.Values.OrderByDescending(star => star.PhysicalData.Mass.SolarMasses).ToArray();
 
-        [CreateProperty]
+        //[CreateProperty]
         public string Name { get; set; }
 
-        public Length DistanceFromSol => Length.FromParsecs(Coordinates.magnitude);
+        public Length DistanceFromSol => Length.FromParsecs(Coordinates.Length());
 
         public string Id { get; set; }
 

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Godot;
 using System.Text;
 using UnitsNet;
-using Unity.Mathematics;
-using UnityEngine;
+//using Unity.Mathematics;
 using VindemiatrixCollective.Universe.CelestialMechanics.Manoeuvres;
 using VindemiatrixCollective.Universe.CelestialMechanics.Orbits.Propagation;
 using VindemiatrixCollective.Universe.Model;
@@ -58,14 +57,14 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
         public static (Vector3d r, Vector3d v) ClassicalElementsToVectors(double a, double e, double mu, double i, double loAN, double argP, double nu)
         {
             double3x3 mRotation = OrbitalMechanics.RotationMatrix(loAN, 2);
-            mRotation = math.mul(mRotation, OrbitalMechanics.RotationMatrix(i, 0));
-            mRotation = math.mul(mRotation, OrbitalMechanics.RotationMatrix(argP, 2));
+            mRotation = MatrixMult.Mul(mRotation, OrbitalMechanics.RotationMatrix(i, 0));
+            mRotation = MatrixMult.Mul(mRotation, OrbitalMechanics.RotationMatrix(argP, 2));
 
             double p = OrbitalMechanics.SemiLatusRectum(a, e);
             (Vector3d r, Vector3d v) = OrbitalMechanics.RVinPerifocalFrame(mu, p, e, nu);
 
-            double3 vr = math.mul(mRotation, new double3(r[0], r[1], r[2]));
-            double3 vv = math.mul(mRotation, new double3(v[0], v[1], v[2]));
+            double3 vr = MatrixMult.Mul(mRotation, new double3(r[0], r[1], r[2]));
+            double3 vv = MatrixMult.Mul(mRotation, new double3(v[0], v[1], v[2]));
 
             r = new Vector3d(vr[0], vr[1], vr[2]);
             v = new Vector3d(vv[0], vv[1], vv[2]);

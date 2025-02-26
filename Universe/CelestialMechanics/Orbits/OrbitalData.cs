@@ -1,5 +1,4 @@
 ﻿using UnitsNet;
-using Unity.Properties;
 
 namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
 {
@@ -12,7 +11,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
         public Angle MeanAnomalyAtEpoch => Angle.FromDegrees(meanAnomalyAtEpoch);
         public Angle TrueAnomalyAtEpoch => Angle.FromDegrees(trueAnomalyAtEpoch);
 
-        [CreateProperty]
+        //[CreateProperty]
         public Duration Period => Duration.FromSeconds(periodS);
 
         public Duration SiderealRotationPeriod => Duration.FromSeconds(siderealRotationPeriodS);
@@ -20,7 +19,7 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
         /// <summary>
         /// Semi-major axis of the orbit.
         /// </summary>
-        [CreateProperty]
+        //[CreateProperty]
         public Length SemiMajorAxis => Length.FromMeters(semiMajorAxisM);
 
         public Ratio Eccentricity => Ratio.FromDecimalFractions(eccentricity);

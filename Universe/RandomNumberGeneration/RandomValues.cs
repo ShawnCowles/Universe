@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
-namespace VindemiatrixCollective.Universe.RandomNumberGeneration
+﻿namespace VindemiatrixCollective.Universe.RandomNumberGeneration
 {
     public static class RandomValues
     {
@@ -40,22 +35,22 @@ namespace VindemiatrixCollective.Universe.RandomNumberGeneration
             return test ? result : mean;
         }
 
-        public static T PickRandomItemWeighted<T>(IList<(T Item, float Weight)> items)
-        {
-            if ((items?.Count ?? 0) == 0)
-            {
-                return default(T);
-            }
+        //public static T PickRandomItemWeighted<T>(IList<(T Item, float Weight)> items)
+        //{
+        //    if ((items?.Count ?? 0) == 0)
+        //    {
+        //        return default(T);
+        //    }
 
-            float offset = 0;
-            (T Item, float RangeTo)[] rangedItems = items
-                                                   .OrderBy(item => item.Weight)
-                                                   .Select(entry => (entry.Item, RangeTo: offset += entry.Weight))
-                                                   .ToArray();
+        //    float offset = 0;
+        //    (T Item, float RangeTo)[] rangedItems = items
+        //                                           .OrderBy(item => item.Weight)
+        //                                           .Select(entry => (entry.Item, RangeTo: offset += entry.Weight))
+        //                                           .ToArray();
 
-            float randomNumber = UnityEngine.Random.value;
-            return rangedItems.First(item => randomNumber <= item.RangeTo).Item;
-        }
+        //    float randomNumber = UnityEngine.Random.value;
+        //    return rangedItems.First(item => randomNumber <= item.RangeTo).Item;
+        //}
 
         public static T PickRandomItemWeighted<T>(IList<(T Item, double Weight)> items)
         {
@@ -75,29 +70,29 @@ namespace VindemiatrixCollective.Universe.RandomNumberGeneration
         }
 
 
-        public static Vector2 PointInUnitDisk(float radius)
-        {
-            float angle = (float)DoubleInRange(0, Math.PI * 2);
-            float sqrtR = Mathf.Sqrt(UnityEngine.Random.Range(0, radius));
-            float x     = Mathf.Cos(angle) * sqrtR;
-            float y     = Mathf.Sin(angle) * sqrtR;
+        //public static Vector2 PointInUnitDisk(float radius)
+        //{
+        //    float angle = (float)DoubleInRange(0, Math.PI * 2);
+        //    float sqrtR = Mathf.Sqrt(UnityEngine.Random.Range(0, radius));
+        //    float x     = Mathf.Cos(angle) * sqrtR;
+        //    float y     = Mathf.Sin(angle) * sqrtR;
 
-            return new Vector2(x, y);
-        }
+        //    return new Vector2(x, y);
+        //}
 
-        public static Vector2 PointOnUnitCircle(float radius)
-        {
-            float angle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
-            float x     = Mathf.Cos(angle) * radius;
-            float y     = Mathf.Sin(angle) * radius;
-            return new Vector2(x, y);
-        }
+        //public static Vector2 PointOnUnitCircle(float radius)
+        //{
+        //    float angle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
+        //    float x     = Mathf.Cos(angle) * radius;
+        //    float y     = Mathf.Sin(angle) * radius;
+        //    return new Vector2(x, y);
+        //}
 
-        public static void InitRandomGenerator(int seed)
-        {
-            random = new System.Random(seed);
-            gaussian = new Gaussian(random);
-            UnityEngine.Random.InitState(seed);
-        }
+        //public static void InitRandomGenerator(int seed)
+        //{
+        //    random = new System.Random(seed);
+        //    gaussian = new Gaussian(random);
+        //    UnityEngine.Random.InitState(seed);
+        //}
     }
 }

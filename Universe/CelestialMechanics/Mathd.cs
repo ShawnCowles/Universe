@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace VindemiatrixCollective.Universe.CelestialMechanics
+﻿namespace VindemiatrixCollective.Universe.CelestialMechanics
 {
     public struct Mathd
     {
@@ -357,18 +354,18 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
             return Abs(b - a) < Max(1E-06d * Max(Abs(a), Abs(b)), 1.121039E-44d);
         }
 
-        public static double SmoothDamp(double current, double target, ref double currentVelocity, double smoothTime, double maxSpeed)
-        {
-            double deltaTime = Time.deltaTime;
-            return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
-        }
+        //public static double SmoothDamp(double current, double target, ref double currentVelocity, double smoothTime, double maxSpeed)
+        //{
+        //    double deltaTime = Time.deltaTime;
+        //    return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        //}
 
-        public static double SmoothDamp(double current, double target, ref double currentVelocity, double smoothTime)
-        {
-            double deltaTime = Time.deltaTime;
-            double maxSpeed  = double.PositiveInfinity;
-            return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
-        }
+        //public static double SmoothDamp(double current, double target, ref double currentVelocity, double smoothTime)
+        //{
+        //    double deltaTime = Time.deltaTime;
+        //    double maxSpeed  = double.PositiveInfinity;
+        //    return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        //}
 
         public static double SmoothDamp(double current, double target, ref double currentVelocity, double smoothTime, double maxSpeed,
                                         double deltaTime)
@@ -394,18 +391,18 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics
             return num8;
         }
 
-        public static double SmoothDampAngle(double current, double target, ref double currentVelocity, double smoothTime, double maxSpeed)
-        {
-            double deltaTime = Time.deltaTime;
-            return SmoothDampAngle(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
-        }
+        //public static double SmoothDampAngle(double current, double target, ref double currentVelocity, double smoothTime, double maxSpeed)
+        //{
+        //    double deltaTime = Time.deltaTime;
+        //    return SmoothDampAngle(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        //}
 
-        public static double SmoothDampAngle(double current, double target, ref double currentVelocity, double smoothTime)
-        {
-            double deltaTime = Time.deltaTime;
-            double maxSpeed  = double.PositiveInfinity;
-            return SmoothDampAngle(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
-        }
+        //public static double SmoothDampAngle(double current, double target, ref double currentVelocity, double smoothTime)
+        //{
+        //    double deltaTime = Time.deltaTime;
+        //    double maxSpeed  = double.PositiveInfinity;
+        //    return SmoothDampAngle(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        //}
 
         public static double SmoothDampAngle(double current, double target, ref double currentVelocity, double smoothTime, double maxSpeed,
                                              double deltaTime)

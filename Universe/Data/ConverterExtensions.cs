@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using Godot;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace VindemiatrixCollective.Universe.Data
 {
@@ -39,7 +38,7 @@ namespace VindemiatrixCollective.Universe.Data
         {
             if (!field.HasValue)
             {
-                Debug.LogWarning($"No value entered for {fieldName}.");
+                //Debug.LogWarning($"No value entered for {fieldName}.");
             }
         }
 
@@ -48,7 +47,7 @@ namespace VindemiatrixCollective.Universe.Data
             if (string.IsNullOrEmpty(field))
             {
                 string message = $"No value entered for {fieldName}.";
-                Debug.LogWarning(message);
+                //Debug.LogWarning(message);
                 if (required)
                 {
                     throw new ArgumentException(message);
