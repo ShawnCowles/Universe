@@ -5,8 +5,6 @@ namespace VindemiatrixCollective.Universe
 {
     public interface ICelestialBody
     {
-        string Name { get; }
-
         OrbitState OrbitState { get; }
         PhysicalData PhysicalData { get; }
     }

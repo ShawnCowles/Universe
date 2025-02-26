@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Godot.Collections;
+using System;
 using UnitsNet;
 using VindemiatrixCollective.Universe.CelestialMechanics;
 
@@ -6,16 +7,9 @@ namespace VindemiatrixCollective.Universe.Model
 {
     public class PhysicalData
     {
-        //[CreateProperty]
         public Acceleration Gravity { get; private set; }
-
-        //[CreateProperty]
         public Density Density { get; private set; }
-
-        //[CreateProperty]
         public Length Radius { get; private set; }
-
-        //[CreateProperty]
         public Mass Mass { get; private set; }
 
 
@@ -36,6 +30,26 @@ namespace VindemiatrixCollective.Universe.Model
             Mass         mass    = Mass.FromKilograms((4 / 3d) * UniversalConstants.Tri.Pi * Math.Pow(radius.Meters, 3) * density.GramsPerCubicMeter);
             Acceleration gravity = Acceleration.FromMetersPerSecondSquared(gm.M3S2 / Math.Pow(radius.Meters, 2));
             return Create(mass, radius, gravity, density);
+        }
+
+        public Dictionary GetSaveData()
+        {
+            return new Dictionary
+            {
+                {"Gravity", Gravity.MetersPerSecondSquared },
+                {"Density", Density.KilogramsPerCubicMeter },
+                {"Radius", Radius.Meters },
+                {"Mass", Mass.Kilograms },
+            };
+        }
+
+        public static PhysicalData LoadSaveData(Dictionary data)
+        {
+            return Create(
+                Mass.FromKilograms(data["Mass"].AsDouble()),
+                Length.FromMeters(data["Radius"].AsDouble()),
+                Acceleration.FromMetersPerSecondSquared(data["Gravity"].AsDouble()),
+                Density.FromKilogramsPerCubicMeter(data["Density"].AsDouble()));
         }
     }
 }

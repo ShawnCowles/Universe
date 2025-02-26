@@ -1,25 +1,13 @@
-﻿using System.Collections;
-using System.Diagnostics;
+﻿using Godot;
+using Godot.Collections;
 using UnitsNet;
 
 namespace VindemiatrixCollective.Universe.Model
 {
-    [Serializable]
-    [DebuggerDisplay("{Name}")]
-    public class Star : CelestialBody, IEnumerable<Planet>
+    public class Star : CelestialBody
     {
-        public bool HasPlanets => Orbiters.Count > 0;
         public float Distance => (float)StarSystem.DistanceFromSol.LightYears;
 
-        protected List<Planet> Planets => Orbiters.Values.Cast<Planet>().ToList();
-
-        public int PlanetCount => Orbiters.Count;
-        public Planet this[string key] => (Planet)Orbiters[key];
-        public Planet this[int index] => (index >= 0) && (index < Orbiters.Count) ? (Planet)Orbiters.ElementAt(index).Value : null;
-
-        public override string FullName => $"{StarSystem.Name} {Name}";
-
-        public override string Path => $"{StarSystem.Name}/{ParentStar.Index}";
         public Duration Age { get; set; }
         public Luminosity Luminosity { get; set; }
         public SpectralClass SpectralClass { get; set; }
@@ -28,7 +16,7 @@ namespace VindemiatrixCollective.Universe.Model
         public Mass CalculatePlanetaryMass()
         {
             Mass sum = Mass.Zero;
-            foreach (CelestialBody orbiter in Orbiters.Values)
+            foreach (var orbiter in GetChildren().OfType<CelestialBody>())
             {
                 sum += orbiter.PhysicalData.Mass;
             }
@@ -36,31 +24,11 @@ namespace VindemiatrixCollective.Universe.Model
             return sum;
         }
 
-        public Star() : base(nameof(Star), CelestialBodyType.Star)
-        {
-        }
-
-        public Star(string name) : base(name, CelestialBodyType.Star)
-        {
-        }
-
-        public static Star Create(string name, PhysicalData data)
-        {
-            Star star = new(name)
-            {
-                PhysicalData = data
-            };
-#if UNITY_EDITOR
-            star.CopyValues();
-#endif
-            return star;
-        }
-
         public void AddPlanet(Planet planet)
         {
             AddOrbiter(planet);
             planet.ParentStar = this;
-            foreach (Planet satellite in planet)
+            foreach (var  satellite in planet.GetChildren().OfType<Planet>())
             {
                 satellite.ParentStar = this;
             }
@@ -74,73 +42,26 @@ namespace VindemiatrixCollective.Universe.Model
             }
         }
 
-        public IEnumerator<Planet> GetEnumerator()
+        public override Dictionary GetSaveData()
         {
-            return Planets?.GetEnumerator() ?? Enumerable.Empty<Planet>().GetEnumerator();
+            var data = base.GetSaveData();
+
+            data.Add("Age", Age.Years365);
+            data.Add("Luminosity", Luminosity.Watts);
+            data.Add("SpectralClass", SpectralClass.Signature);
+            data.Add("Temperature", Temperature.Kelvins);
+
+            return data;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public override void LoadSaveData(Node3D root, Node3D parent, Dictionary data)
         {
-            return GetEnumerator();
+            base.LoadSaveData(root, parent, data);
+
+            Age = Duration.FromYears365(data["Age"].AsDouble());
+            Luminosity = Luminosity.FromWatts(data["Luminosity"].AsDouble());
+            SpectralClass = new SpectralClass(data["SpectralClass"].AsString());
+            Temperature = Temperature.FromKelvins(data["Temperature"].AsDouble());
         }
-
-        /// <summary>
-        /// Creates a new star with the physical characteristics of the Sun.
-        /// </summary>
-        public static Star Sun
-        {
-            get
-            {
-                Mass    mass    = Mass.FromSolarMasses(1);
-                Length  radius  = Length.FromSolarRadiuses(1);
-                Density density = Density.FromGramsPerCubicCentimeter((3 * mass.Grams) / (4 * UniversalConstants.Tri.Pi * Math.Pow(radius.Centimeters, 3)));
-                Acceleration gravity = Acceleration.FromMetersPerSecondSquared(
-                    (UniversalConstants.Celestial.GravitationalConstant * mass.Kilograms) / Math.Pow(radius.Meters, 2));
-
-                return Star.Create("Sol", PhysicalData.Create(mass, radius, gravity, density));
-            }
-        }
-
-        #region UnityEditor
-
-#if UNITY_EDITOR
-        protected override void CopyValues()
-        {
-            if (Planets?.Count > 0)
-            {
-                PlanetArray = Planets.ToArray();
-            }
-
-            MassSM = PhysicalData.Mass.SolarMasses.ToString("0.00");
-            LuminositySL = Luminosity.SolarLuminosities.ToString("0.00");
-            TemperatureK = Temperature.Kelvins.ToString("0");
-            AgeGY = (Age.Years365 / 1E9).ToString("0.00");
-            RadiusSR = PhysicalData.Radius.SolarRadiuses.ToString("0.00");
-            //Class = SpectralClass.Signature;
-            //DistanceFromSol = Length.FromParsecs(Coordinates.magnitude).LightYears.ToString("0.00 LY");
-        }
-#endif
-
-#if UNITY_EDITOR
-        [SerializeField]
-        internal string MassSM;
-
-        [SerializeField]
-        internal string LuminositySL;
-
-        [SerializeField]
-        internal string TemperatureK;
-
-        [SerializeField]
-        internal string AgeGY;
-
-        [SerializeField]
-        internal string RadiusSR;
-
-        [SerializeField]
-        private Planet[] PlanetArray;
-#endif
-
-        #endregion
     }
 }

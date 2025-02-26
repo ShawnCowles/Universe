@@ -58,18 +58,15 @@ namespace VindemiatrixCollective.Universe.Model
             {
                 if (!Systems.ContainsKey(star.Name))
                 {
-                    Systems.Add(star.Name, new StarSystem(star.Name));
+                    Systems.Add(star.Name, new StarSystem
+                    {
+                        Name = star.Name
+                    });
                 }
 
                 this[star.Name].AddStar(star);
             }
 
-        }
-
-        public Planet GetPlanet(string locationPath)
-        {
-            string[] data = locationPath.Split('/');
-            return Systems[data[0]][int.Parse(data[1])][data[2]];
         }
 
         public IEnumerator<StarSystem> GetEnumerator()

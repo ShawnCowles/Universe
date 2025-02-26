@@ -1,4 +1,5 @@
-﻿using UnitsNet;
+﻿using Godot.Collections;
+using UnitsNet;
 
 namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
 {
@@ -122,6 +123,37 @@ namespace VindemiatrixCollective.Universe.CelestialMechanics.Orbits
                 axialTilt = axialTilt
             };
             return orbitalData;
+        }
+
+        public Dictionary GetSaveData()
+        {
+            return new Dictionary
+            {
+                {"argumentPeriapsis", argumentPeriapsis },
+                {"axialTilt", axialTilt},
+                {"eccentricity", eccentricity},
+                {"inclination", inclination},
+                {"longitudeAscendingNode", longitudeAscendingNode},
+                {"meanAnomalyAtEpoch", meanAnomalyAtEpoch},
+                {"periodS", periodS},
+                {"semiMajorAxisM", semiMajorAxisM},
+                {"siderealRotationPeriodS", siderealRotationPeriodS},
+                {"trueAnomalyAtEpoch", trueAnomalyAtEpoch},
+            };
+        }
+
+        public static OrbitalData LoadSaveData(Dictionary data)
+        {
+            return From(
+                Length.FromMeters(data["semiMajorAxisM"].AsDouble()),
+                Ratio.FromDecimalFractions(data["eccentricity"].AsDouble()),
+                Angle.FromDegrees(data["inclination"].AsDouble()),
+                Angle.FromDegrees(data["longitudeAscendingNode"].AsDouble()),
+                Angle.FromDegrees(data["argumentPeriapsis"].AsDouble()),
+                Angle.FromDegrees(data["trueAnomalyAtEpoch"].AsDouble()),
+                Duration.FromSeconds(data["periodS"].AsDouble()),
+                Duration.FromSeconds(data["siderealRotationPeriodS"].AsDouble()),
+                Angle.FromDegrees(data["axialTilt"].AsDouble()));
         }
     }
 }
