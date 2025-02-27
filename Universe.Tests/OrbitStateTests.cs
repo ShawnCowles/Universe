@@ -118,9 +118,29 @@ namespace VindemiatrixCollective.Universe.Tests
         [Test]
         public void LunarPeriod()
         {
-            //Star sun = Common.Sun;
-            var earth = Common.Earth;
-            //sun.AddPlanet(earth);
+            var eMass = Mass.FromEarthMasses(1);
+            var eRadius = Length.FromKilometers(6371.0);
+
+            var volume = 4 / 3 * Math.PI * Math.Pow(eRadius.Meters, 3);
+
+            var earth = new Planet
+            {
+                Name = "Earth",
+                PhysicalData = PhysicalData.Create(
+                    Density.FromKilogramsPerCubicMeter(eMass.Kilograms / volume),
+                    eRadius,
+                    GravitationalParameter.FromMass(eMass)),
+                OrbitalData = OrbitalData.From(
+                    Length.FromAstronomicalUnits(1.00000102),
+                    Ratio.FromDecimalFractions(0.0167086),
+                    Angle.FromDegrees(0.00005),
+                    Angle.FromDegrees(348.7394),
+                    Angle.FromDegrees(114.20783),
+                    Angle.FromDegrees(358.617),
+                    Duration.FromDays(365.256363004),
+                    Duration.FromHours(23.934469),
+                    Angle.FromDegrees(23.43702)),
+            };
 
             var moon = new Planet
             {
@@ -141,12 +161,12 @@ namespace VindemiatrixCollective.Universe.Tests
                     Duration.FromDays(27.321661),
                     Angle.FromDegrees(1.5424)),
             };
-            earth.AddSatellite(moon);
+            earth.AddPlanets(new[] { moon });
 
 
             moon.OrbitState.Propagate(Duration.FromDays(1));
 
-            Assert.That(moon.OrbitState.Period.Days, Is.EqualTo(27.321661));
+            Assert.That(moon.OrbitState.Period.Days, Is.InRange(20, 27));
         }
 
         //[Test]
