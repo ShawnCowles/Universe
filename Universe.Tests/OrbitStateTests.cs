@@ -161,7 +161,7 @@ namespace VindemiatrixCollective.Universe.Tests
                     Duration.FromDays(27.321661),
                     Angle.FromDegrees(1.5424)),
             };
-            earth.AddPlanets(new[] { moon });
+            earth.AddSatellite(moon);
 
 
             moon.OrbitState.Propagate(Duration.FromDays(1));

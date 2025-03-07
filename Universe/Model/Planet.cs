@@ -2,12 +2,12 @@
 {
     public class Planet : CelestialBody
     {
-        public void AddSatellite(CelestialBody satellite)
+        public void AddSatellite(CelestialThing satellite)
         {
             AddOrbiter(satellite);
         }
 
-        public void AddSatellites(IEnumerable<CelestialBody> satellites)
+        public void AddSatellites(IEnumerable<CelestialThing> satellites)
         {
             AddOrbiters(satellites);
         }
