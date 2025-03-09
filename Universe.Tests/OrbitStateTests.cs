@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using Godot;
 using NUnit.Framework;
 using UnitsNet;
 using VindemiatrixCollective.Universe.CelestialMechanics;
@@ -190,5 +190,39 @@ namespace VindemiatrixCollective.Universe.Tests
         //    Common.VectorsAreEqual(rExp, r1, 1e2, nameof(OrbitState.Position));  // 100 m precision
         //    Common.VectorsAreEqual(vExp, v1, 1e-1, nameof(OrbitState.Velocity)); // 10 cm / s
         //}
+
+        [Test]
+        public void PropogatedFromToVectors()
+        {
+            var moon = new Planet
+            {
+                PhysicalData = PhysicalData.Create(
+                    Mass.FromKilograms(7.346e22),
+                    Length.FromKilometers(1737.4),
+                    Acceleration.FromStandardGravity(0.1654),
+                    Density.FromGramsPerCubicCentimeter(3.344))
+            };
+
+            Vector3d startR = new Vector3d(-11757256.850603558, -5546792.888592083, 0);
+            Vector3d startV = new Vector3d(288.26859429353965, -611.0283165837576, 0);
+            DateTime time = DateTime.Parse("3/3/2315 3:40:26 AM");
+
+            var orbit = OrbitState.FromVectors(startR, startV, moon, time);
+
+            (Vector3d r, Vector3d v) = orbit.ToVectors();
+
+            var newOrbit = OrbitState.FromVectors(r, v, moon, time);
+
+            Assert.AreEqual(orbit.Position.x, newOrbit.Position.x, 10, "Orbits to eachother");
+            Assert.AreEqual(startR.x, orbit.Position.x, 100, "Orbit to Source");
+            Assert.AreEqual(startR.x, newOrbit.Position.x, 100, "New Orbit to Source");
+
+            orbit.Propagate(Duration.FromDays(0.0));
+            newOrbit.Propagate(Duration.FromDays(0.0));
+
+            Assert.AreEqual(orbit.Position.x, newOrbit.Position.x, 10, "Orbits to eachother post");
+            Assert.AreEqual(startR.x, orbit.Position.x, 1000, "Orbit to Source post");
+            Assert.AreEqual(startR.x, newOrbit.Position.x, 1000, "New Orbit to Source post");
+        }
     }
 }
